@@ -1,0 +1,19 @@
+{
+  "title": "Review",
+  "type": "object",
+  "description": "Обзоры пользователей на книги",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "content": {
+      "type": "string"
+    },
+    "users": {
+      "$ref": "./User.json"
+    },
+    "books": {
+      "$ref": "./Book.json"
+    }
+  }
+}

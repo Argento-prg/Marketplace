@@ -1,0 +1,19 @@
+{
+  "title": "Rating",
+  "type": "object",
+  "description": "Оценки пользователей на книги",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "rate": {
+      "type": "integer"
+    },
+    "users": {
+      "$ref": "./User.json"
+    },
+    "books": {
+      "$ref": "./Book.json"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Author",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "description": "Автор книг"
+}

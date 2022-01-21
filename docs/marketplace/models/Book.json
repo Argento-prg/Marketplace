@@ -1,0 +1,43 @@
+{
+  "title": "Book",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "date": {
+      "type": "integer"
+    },
+    "price": {
+      "type": "number"
+    },
+    "img": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "quantity": {
+      "type": "integer"
+    },
+    "rating": {
+      "type": "number"
+    },
+    "ratings": {
+      "$ref": "./Rating.json"
+    },
+    "reviews": {
+      "$ref": "./Review.json"
+    },
+    "baskets": {
+      "$ref": "./Basket.json"
+    },
+    "authors": {
+      "$ref": "./Author.json"
+    }
+  },
+  "description": "Книги"
+}

@@ -1,0 +1,495 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "book",
+    "version": "1.0",
+    "description": "Взаимодействие с сущностью книги"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/book"
+    }
+  ],
+  "paths": {
+    "/getall": {
+      "get": {
+        "summary": "",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "books": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "../models/Book.json"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    },
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": [
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-getall",
+        "description": "Получение списка всех книг",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "page",
+            "required": true,
+            "description": "Номер страницы, пагинация. Пример: 1."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "authorId",
+            "required": true,
+            "description": "id автора; Пример: ''; '1,2,3'; '1'"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "searchTemplate",
+            "required": true,
+            "description": "Шаблон строки. Пример: 'Кап'; 'р' и т. д."
+          }
+        ]
+      }
+    },
+    "/getone": {
+      "get": {
+        "summary": "",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "book": {
+                      "$ref": "../models/Book.json"
+                    },
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": [
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "error": "Некорректные данные",
+                      "status": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-getone",
+        "description": "Получение подробной информации о книге",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "id",
+            "description": "id книги",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/create": {
+      "post": {
+        "summary": "",
+        "operationId": "post-create",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": [
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "error": "Некорректные данные",
+                      "status": false
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "error": "Изображение не найдено",
+                      "status": false
+                    }
+                  },
+                  "example-3": {
+                    "value": {
+                      "error": "Книга уже в базе",
+                      "status": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Добавление новой книги. Право имеет только администратор",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "integer"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "quantity": {
+                    "type": "integer"
+                  },
+                  "authorId": {
+                    "type": "integer"
+                  },
+                  "img": {
+                    "type": "object",
+                    "description": "Изображение из req.files"
+                  }
+                },
+                "required": [
+                  "name",
+                  "date",
+                  "price",
+                  "quantity",
+                  "authorId",
+                  "img"
+                ]
+              }
+            }
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/edit": {
+      "post": {
+        "summary": "",
+        "operationId": "post-edit",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": [
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "error": "Некорректные данные",
+                      "status": false
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "error": "Изображение не найдено",
+                      "status": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Обновление информации о книге. Право имеет только администратор",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "integer"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "quantity": {
+                    "type": "integer"
+                  },
+                  "authorId": {
+                    "type": "integer"
+                  },
+                  "fileName": {
+                    "type": "string"
+                  },
+                  "img": {
+                    "type": "object",
+                    "description": "Изображение из req.files"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "date",
+                  "price",
+                  "description",
+                  "quantity",
+                  "authorId",
+                  "fileName",
+                  "img"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/del": {
+      "post": {
+        "summary": "",
+        "operationId": "post-del",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": [
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "error": "Некорректные данные",
+                      "status": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Удаление книги из базы. Право имеет только администратор",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "fileName": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "fileName"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "username": "xxx",
+    "password": "xxx",
+    "database": "market_place",
+    "synchronize": true,
+    "logging": false,
+    "entities": [
+       "./bd/models/*.js"
+    ]
+ }

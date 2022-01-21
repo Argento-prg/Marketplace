@@ -1,0 +1,11 @@
+{
+    "ListenerConfig": {
+        "PORT": 3000
+    },
+    
+    "CONSTANT": {
+        "limit": 10,
+        "SecretKey": "dorou145",
+        "HashRound": 5
+    }
+}

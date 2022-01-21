@@ -1,0 +1,390 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "author",
+    "version": "1.0",
+    "description": "Взаимодействие с сущностью автора"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/author"
+    }
+  ],
+  "paths": {
+    "/getall": {
+      "get": {
+        "summary": "",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "authors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "../models/Author.json"
+                      }
+                    },
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "authors": [
+                        {
+                          "id": 1,
+                          "name": "Пушкин Александр Сергеевич"
+                        },
+                        {
+                          "id": 2,
+                          "name": "Толстой Лев Николаевич"
+                        }
+                      ],
+                      "status": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": [
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {}
+              }
+            }
+          }
+        },
+        "operationId": "get-getall",
+        "description": "Получение списка всех авторов",
+        "parameters": []
+      }
+    },
+    "/create": {
+      "post": {
+        "summary": "",
+        "operationId": "post-create",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": [
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "error": "Некорректные данные",
+                      "status": false
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "error": "Автор уже в базе",
+                      "status": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "name": "Пушкин Александр Сергеевич"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Из тела запроса получаем только ФИО автора"
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [],
+        "description": "Добавлять новую книгу в базу данных имеет право только авторизованный администратор"
+      }
+    },
+    "/edit": {
+      "parameters": [],
+      "post": {
+        "summary": "",
+        "operationId": "post-edit",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": [
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "error": "Некорректные данные",
+                      "status": false
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "error": "Этого автора нет в базе",
+                      "status": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Обновление информации об авторе;\nДоступ имеет только авторизованный администратор",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "id": 1,
+                    "name": "Толстой Лев Николаевич"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Получаем id записи и новое ФИО"
+        }
+      }
+    },
+    "/del": {
+      "post": {
+        "summary": "",
+        "operationId": "post-del",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": [
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "error": "Некорректные данные",
+                      "status": false
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "error": "Этого автора нет в базе",
+                      "status": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Удаление записи по id;\nУдалять имеет право только авторизованный администратор",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "id": 1
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "title": "User",
+  "type": "object",
+  "description": "Данные пользователей",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "email": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "ratings": {
+      "$ref": "./Rating.json"
+    },
+    "reviews": {
+      "$ref": "./Review.json"
+    },
+    "baskets": {
+      "$ref": "./Basket.json"
+    }
+  }
+}

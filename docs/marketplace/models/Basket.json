@@ -1,0 +1,19 @@
+{
+  "title": "Basket",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "quantity": {
+      "type": "integer"
+    },
+    "users": {
+      "$ref": "./User.json"
+    },
+    "books": {
+      "$ref": "./Book.json"
+    }
+  },
+  "description": "Корзина пользователя"
+}
